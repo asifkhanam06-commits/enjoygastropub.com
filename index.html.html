@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Enjoy Gastro & Pub</title>
+
+<!-- Google font & icons -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<!-- main css -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+<style>
+/* ================== CHAT STYLES ================== */
+#chatBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #8b0035;
+    color: #fff;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 16px;
+    z-index: 1000;
+}
+#chatBox {
+    position: fixed;
+    bottom: 70px;
+    right: 20px;
+    width: 300px;
+    max-height: 400px;
+    background: #fff;
+    border: 2px solid #8b0035;
+    border-radius: 10px;
+    display: none;
+    flex-direction: column;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+#chatHeader {
+    background: #8b0035;
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    font-weight: bold;
+    font-size: 16px;
+}
+#chatHeader span { cursor: pointer; }
+#chatMessages {
+    padding: 10px;
+    overflow-y: auto;
+    flex-grow: 1;
+    height: 250px;
+    border-bottom: 1px solid #ccc;
+}
+.message { margin-bottom: 8px; }
+.message.user { text-align: right; color: #8b0035; }
+.message.admin { text-align: left; color: #000; }
+#chatInput { display: flex; border-top: 1px solid #ccc; }
+#chatInput input { flex-grow: 1; padding: 8px; border: none; border-radius: 0 0 0 8px; }
+#chatInput button { padding: 8px 12px; background: #8b0035; color: #fff; border: none; border-radius: 0 0 8px 0; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <img src="{{ url_for('static', filename='images/enjoyGastropub.png') }}" alt="Enjoy Gastro Logo">
+  </div>
+  <div class="menu">
+    <ul>
+      <li><a href="#memories">Memories</a></li>
+      <li><a href="#videos">Videos</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#reservation">Reserve</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="actions">
+      <a href="https://wa.me/YOUR_NUMBER" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+      <button id="feedbackBtn">Feedback</button>
+      <button id="orderBtnTop">Order</button>
+      <button id="loginBtn">Login</button>
+      <button id="signupBtn">Sign Up</button>
+    </div>
+  </div>
+</nav>
+
+<!-- SEARCH -->
+<div id="topSearch">
+  <input id="search" type="text" placeholder="Search Memories, Menu..." />
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>WELCOME TO Enjoy Gastro & Pub</h1>
+  <p>Fun • Meet • Eat • Laugh • Enjoy</p>
+</section>
+
+<!-- MEMORIES -->
+<section id="memories">
+  <h2>Our Memories</h2>
+  <div class="gallery">
+    <div class="memory-frame"><img src="{{ url_for('static', filename='images/memory1.jpg') }}" alt=""></div>
+    <div class="memory-frame"><img src="{{ url_for('static', filename='images/memory2.jpg') }}" alt=""></div>
+    <div class="memory-frame"><img src="{{ url_for('static', filename='images/memory3.jpg') }}" alt=""></div>
+  </div>
+</section>
+
+<!-- VIDEOS -->
+<section id="videos">
+  <h2>Our Videos</h2>
+  <div class="video-gallery">
+    <video src="{{ url_for('static', filename='videos/video1.mp4') }}" controls></video>
+    <video src="{{ url_for('static', filename='videos/video2.mp4') }}" controls></video>
+    <video src="{{ url_for('static', filename='videos/video3.mp4') }}" controls></video>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <h2>Our Menu</h2>
+  <div class="menu-grid">
+    <div class="menu-item">
+      <img src="{{ url_for('static', filename='images/chickenburger.jpg') }}" alt="Cheese Burger">
+      <h3>Cheese Burger</h3>
+      <div class="price">300₺</div>
+      <button class="order-btn" data-item="Cheese Burger">Order Now</button>
+    </div>
+    <div class="menu-item">
+      <img src="{{ url_for('static', filename='images/humburger.jpg') }}" alt="Mantar Burger">
+      <h3>Mantar Burger</h3>
+      <div class="price">360₺</div>
+      <button class="order-btn" data-item="Mantar Burger">Order Now</button>
+    </div>
+    <div class="menu-item">
+      <img src="{{ url_for('static', filename='images/chicken-barbecue pizza.jpg') }}" alt="Pizza">
+      <h3>Chicken Barbecue Pizza</h3>
+      <div class="price">420₺</div>
+      <button class="order-btn" data-item="Chicken Barbecue Pizza">Order Now</button>
+    </div>
+  </div>
+</section>
+<!-- MENU -->
+<section id="menu">
+  <h2></h2>
+  <div class="menu-grid">
+    <div class="menu-item">
+      <img src="{{ url_for('static', filename='images/chickenburger.jpg') }}" alt="Cheese Burger">
+      <h3>chicken burger</h3>
+      <div class="price">300₺</div>
+      <button class="order-btn" data-item="Cheese Burger">Order Now</button>
+    </div>
+    <div class="menu-item">
+      <img src="{{ url_for('static', filename='images/humburger.jpg') }}" alt="Mantar Burger">
+      <h3>Mantar Burger</h3>
+      <div class="price">360₺</div>
+      <button class="order-btn" data-item="Mantar Burger">Order Now</button>
+    </div>
+    <div class="menu-item">
+      <img src="{{ url_for('static', filename='images/chicken-barbecue pizza') }}"width=70px height="70" alt="Pizza">
+      <h3>Chicken Barbecue Pizza</h3>
+      <div class="price">420₺</div>
+      <button class="order-btn" data-item="Chicken Barbecue Pizza">Order Now</button>
+    </div>
+  </div>
+</section>
+
+<!-- DRINKS SECTION -->
+<section id="drinks">
+  <h2>Our Drinks</h2>
+  <div class="menu-grid">
+
+    <div class="menu-item">
+      <img src="{{ url_for('static', filename='images/cola.jpg') }}" alt="Cola">
+      <h3>Cola</h3>
+      <div class="price">50₺</div>
+      <button class="order-btn" data-item="Cola">Order Now</button>
+    </div>
+
+    <div class="menu-item">
+      <img src="{{ url_for('static', filename='images/juice.jpg') }}" alt="Juice">
+      <h3>Fresh Juice</h3>
+      <div class="price">60₺</div>
+      <button class="order-btn" data-item="Fresh Juice">Order Now</button>
+    </div>
+
+    <div class="menu-item">
+      <img src="{{ url_for('static', filename='images/water.jpg') }}" alt="Water">
+      <h3>Mineral Water</h3>
+      <div class="price">30₺</div>
+      <button class="order-btn" data-item="Mineral Water">Order Now</button>
+    </div>
+
+    <!-- Add more drinks here -->
+     
+    
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+<!-- RESERVATION -->
+<section id="reservation">
+  <h2>Reserve a Table</h2>
+  <form id="reserveForm" class="reserve-form">
+    <input name="name" type="text" placeholder="Your Name" required>
+    <input name="phone" type="tel" placeholder="Phone Number" required>
+    <input name="email" type="email" placeholder="Email (optional)">
+    <input name="date" type="date" required>
+    <input name="time" type="time" required>
+    <input name="guests" type="number" placeholder="Number of Guests" required>
+    <textarea name="request" placeholder="Any special requests"></textarea>
+    <button type="submit">Submit Reservation</button>
+  </form>
+</section>
+
+<!-- SOCIAL -->
+<section id="socialBox">
+  <h2>FOLLOW US</h2>
+  <div class="social-row">
+    <img src="{{ url_for('static', filename='images/facebook.icon.png') }}" onclick="window.open('https://facebook.com/YOUR_PAGE_URL','_blank')">
+    <img src="{{ url_for('static', filename='images/instagram.icon.jpg') }}" onclick="window.open('https://instagram.com/enjoygastropub','_blank')">
+    <img src="{{ url_for('static', filename='images/tiktok.icon.png') }}" onclick="window.open('https://tiktok.com/YOUR_PAGE_URL','_blank')">
+    <img src="{{ url_for('static', filename='images/whatsap.icon.png') }}" onclick="window.open('https://wa.me/+905056182533','_blank')">
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <p>Osmanağa Mah. Kazasker Sok. No:10 A, Kadıköy, Istanbul, Turkey</p>
+  <p>Phone: +90 123 456 789</p>
+  <p>Email: hello@enjoygastropub.com</p>
+  <p>© 2025 Enjoy Gastro & Pub — All rights reserved.</p>
+</footer>
+
+<!-- SIGNUP / LOGIN / ORDER / FEEDBACK MODALS (hidden by default) -->
+<div id="signupModal" class="modal">
+  <div class="modal-inner">
+    <h3>Sign Up</h3>
+    <input id="su_username" placeholder="Username">
+    <input id="su_email" placeholder="Email">
+    <input id="su_password" type="password" placeholder="Password">
+    <div class="modal-actions">
+      <button id="su_submit">Create Account</button>
+      <button class="close-btn">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="loginModal" class="modal">
+  <div class="modal-inner">
+    <h3>Login</h3>
+    <input id="li_email" placeholder="Email">
+    <input id="li_password" type="password" placeholder="Password">
+    <div class="modal-actions">
+      <button id="li_submit">Login</button>
+      <button class="close-btn">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="orderModal" class="modal">
+  <div class="modal-inner">
+    <h3>Place Order: <span id="orderTitle"></span></h3>
+    <input id="orderQuantity" type="number" placeholder="Quantity" value="1">
+    <input id="orderPhone" type="text" placeholder="Phone Number">
+    <div class="modal-actions">
+      <button id="order_submit">Place Order</button>
+      <button class="close-btn">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="feedbackModal" class="modal">
+  <div class="modal-inner">
+    <h3>Feedback</h3>
+    <textarea id="feedbackText" placeholder="Write your feedback..."></textarea>
+    <div class="modal-actions">
+      <button id="feedback_submit">Send Feedback</button>
+      <button class="close-btn">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================== CHAT INTEGRATION ================== -->
+<!-- Chat Button -->
+<button id="chatBtn">Chat</button>
+
+<!-- Chat Box -->
+<div id="chatBox">
+    <div id="chatHeader">
+        Chat
+        <span id="closeChat">&times;</span>
+    </div>
+    <div id="chatMessages"></div>
+    <div id="chatInput">
+        <input type="text" id="messageInput" placeholder="Type a message">
+        <button id="sendBtn">Send</button>
+    </div>
+</div>
+
+<!-- main js -->
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const chatBtn = document.getElementById('chatBtn');
+    const chatBox = document.getElementById('chatBox');
+    const closeChat = document.getElementById('closeChat');
+    const sendBtn = document.getElementById('sendBtn');
+    const messageInput = document.getElementById('messageInput');
+    const chatMessages = document.getElementById('chatMessages');
+
+    // Toggle chat box
+    chatBtn.addEventListener('click', () => {
+        chatBox.style.display = chatBox.style.display === 'flex' ? 'none' : 'flex';
+        chatBox.style.flexDirection = 'column';
+    });
+
+    // Close chat
+    closeChat.addEventListener('click', () => {
+        chatBox.style.display = 'none';
+    });
+
+    // Send message
+    sendBtn.addEventListener('click', () => {
+        const msg = messageInput.value.trim();
+        if(msg === '') return;
+
+        // Add user message
+        const userMsg = document.createElement('div');
+        userMsg.classList.add('message','user');
+        userMsg.textContent = msg;
+        chatMessages.appendChild(userMsg);
+        messageInput.value = '';
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // Simulated admin reply
+        setTimeout(() => {
+            const adminMsg = document.createElement('div');
+            adminMsg.classList.add('message','admin');
+            adminMsg.textContent = "Admin: Thanks for your message!";
+            chatMessages.appendChild(adminMsg);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, 1000);
+    });
+
+    // Enter key to send
+    messageInput.addEventListener('keypress', (e) => {
+        if(e.key === 'Enter') sendBtn.click();
+    });
+});
+</script>
+</body>
+</html>
